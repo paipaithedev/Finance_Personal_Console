@@ -1,0 +1,6 @@
+{
+  "name": "Developer Portfolio",
+  "description": "An ultra-premium, high-tech developer portfolio featuring a localized Financial Operations Console with secure authentication gateway, MMK currency support, and corporate dashboard workspaces.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
