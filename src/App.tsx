@@ -189,6 +189,7 @@ export default function App() {
                   isDarkMode={isDarkMode}
                   tasks={tasks}
                   toggleTask={toggleTask}
+                  deleteTask={deleteTask}
                   handleAddTask={handleAddTask}
                   newTaskTitle={newTaskTitle}
                   setNewTaskTitle={setNewTaskTitle}
@@ -252,16 +253,18 @@ export default function App() {
 
           {/* VIEW: DAILY TASKS */}
           {currentView === 'tasks' && (
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-5xl mx-auto">
               <TasksWorkspace
                 isDarkMode={isDarkMode}
                 tasks={tasks}
                 toggleTask={toggleTask}
+                deleteTask={deleteTask}
                 handleAddTask={handleAddTask}
                 newTaskTitle={newTaskTitle}
                 setNewTaskTitle={setNewTaskTitle}
                 newTaskPriority={newTaskPriority}
                 setNewTaskPriority={setNewTaskPriority}
+                mode="full"
                 t={t}
               />
             </div>
