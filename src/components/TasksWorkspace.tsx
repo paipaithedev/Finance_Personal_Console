@@ -71,7 +71,58 @@ export default function TasksWorkspace({
     ? 'space-y-2'
     : 'space-y-2 max-h-72 overflow-y-auto pr-1';
 
-  return (
+  const createTaskForm = (
+    <form onSubmit={handleAddTask} className={mode === 'full' ? 'space-y-4' : 'grid grid-cols-[1fr_auto_auto] gap-2'}>
+      <div className={mode === 'full' ? '' : 'min-w-0'}>
+        {mode === 'full' && (
+          <label className={`block text-xs font-mono font-bold uppercase tracking-wider mb-2 ${isDarkMode ? 'text-zinc-400' : 'text-slate-600'}`}>
+            Task Name
+          </label>
+        )}
+        <input
+          type="text"
+          required
+          placeholder={mode === 'full' ? 'e.g. Review monthly spending rules' : 'Capture a task...'}
+          value={newTaskTitle}
+          onChange={(e) => setNewTaskTitle(e.target.value)}
+          className={`w-full min-w-0 px-3 py-2 text-xs rounded-lg border outline-none ${
+            isDarkMode ? 'bg-zinc-950 border-zinc-800 text-white' : 'bg-white border-neutral-200 text-slate-800'
+          }`}
+        />
+      </div>
+
+      <div>
+        {mode === 'full' && (
+          <label className={`block text-xs font-mono font-bold uppercase tracking-wider mb-2 ${isDarkMode ? 'text-zinc-400' : 'text-slate-600'}`}>
+            Priority
+          </label>
+        )}
+        <select
+          value={newTaskPriority}
+          onChange={(e) => setNewTaskPriority(e.target.value as 'High' | 'Low')}
+          className={`w-full px-2 py-2 text-xs rounded-lg border cursor-pointer outline-none ${
+            isDarkMode ? 'bg-zinc-950 border-zinc-800 text-zinc-300' : 'bg-white border-neutral-200 text-slate-700'
+          }`}
+        >
+          <option value="High">High</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+
+      <button
+        type="submit"
+        title="Add task"
+        className={mode === 'full'
+          ? 'w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer'
+          : 'px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors cursor-pointer'
+        }
+      >
+        {mode === 'full' ? 'Create Task' : <Plus className="w-3.5 h-3.5" />}
+      </button>
+    </form>
+  );
+
+  const taskListPanel = (
     <div className={`${panelClass} ${isDarkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-neutral-200'}`}>
       <div>
         <div className="flex flex-col gap-4 mb-4">
@@ -216,35 +267,28 @@ export default function TasksWorkspace({
       </div>
 
       {/* Quick Task input in checklist dashboard */}
-      <form onSubmit={handleAddTask} className="mt-4 pt-4 border-t border-neutral-100 dark:border-zinc-800 grid grid-cols-[1fr_auto_auto] gap-2">
-        <input
-          type="text"
-          required
-          placeholder="Capture a task..."
-          value={newTaskTitle}
-          onChange={(e) => setNewTaskTitle(e.target.value)}
-          className={`min-w-0 px-3 py-2 text-xs rounded-lg border outline-none ${
-            isDarkMode ? 'bg-zinc-950 border-zinc-800 text-white' : 'bg-white border-neutral-200 text-slate-800'
-          }`}
-        />
-        <select
-          value={newTaskPriority}
-          onChange={(e) => setNewTaskPriority(e.target.value as any)}
-          className={`px-2 py-2 text-xs rounded-lg border cursor-pointer outline-none ${
-            isDarkMode ? 'bg-zinc-950 border-zinc-800 text-zinc-300' : 'bg-white border-neutral-200 text-slate-700'
-          }`}
-        >
-          <option value="High">High</option>
-          <option value="Low">Low</option>
-        </select>
-        <button
-          type="submit"
-          title="Add task"
-          className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors cursor-pointer"
-        >
-          <Plus className="w-3.5 h-3.5" />
-        </button>
-      </form>
+      {mode === 'compact' && (
+        <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-zinc-800">
+          {createTaskForm}
+        </div>
+      )}
     </div>
   );
+
+  if (mode === 'full') {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className={`p-6 rounded-xl border h-fit ${isDarkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-neutral-200'}`}>
+          <h3 className="text-sm font-bold tracking-tight mb-4 font-mono uppercase text-neutral-400">Add Task</h3>
+          {createTaskForm}
+        </div>
+
+        <div className="lg:col-span-2">
+          {taskListPanel}
+        </div>
+      </div>
+    );
+  }
+
+  return taskListPanel;
 }
