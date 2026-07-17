@@ -396,8 +396,12 @@ export function useFinanceState() {
     if (window.confirm('Are you sure you want to reset all database records back to factory seeds?')) {
       setLoading(true);
       try {
+        const resetSeedId =
+          globalThis.crypto?.randomUUID?.() ||
+          `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
         const seededTx = DEFAULT_TRANSACTIONS.map(tx => ({
-          id: tx.id,
+          id: `${tx.id}-${resetSeedId}`,
           date: tx.date,
           description: tx.description,
           category: tx.category,
@@ -405,30 +409,34 @@ export function useFinanceState() {
           type: tx.type
         }));
 
-        const seededTasks = DEFAULT_TASKS.map((t, idx) => ({
-          id: t.id,
+        const seededTasks = DEFAULT_TASKS.map(t => ({
+          id: `${t.id}-${resetSeedId}`,
           title: t.title,
           priority: t.priority,
-          completed: t.completed,
+          completed: t.completed
+        }));
+
+        const seededTaskRecords = seededTasks.map((t, idx) => ({
+          ...t,
           created_at: new Date(Date.now() - idx * 1000).toISOString()
         }));
 
         const seededSavings = DEFAULT_SAVINGS.map(s => ({
-          id: s.id,
+          id: `${s.id}-${resetSeedId}`,
           name: s.name,
           target: s.target,
           current: s.current,
           category: s.category
         }));
 
-        const result = await supabaseService.resetAllUserData(userId, seededTx, seededTasks, seededSavings);
+        const result = await supabaseService.resetAllUserData(userId, seededTx, seededTaskRecords, seededSavings);
 
         if (!result.success) {
           showToast(`Failed to reset database records: ${result.error?.message || 'Unknown error'}`, 'error');
         } else {
-          setTransactions(DEFAULT_TRANSACTIONS);
-          setTasks(DEFAULT_TASKS);
-          setSavingsGoals(DEFAULT_SAVINGS);
+          setTransactions(seededTx);
+          setTasks(seededTasks);
+          setSavingsGoals(seededSavings);
           setBudgetCap(1500000);
           setCategoryBudgets({
             Meals: 300000,
@@ -440,9 +448,9 @@ export function useFinanceState() {
           });
 
           // Sync local storage
-          localStorage.setItem('fallback_transactions', JSON.stringify(DEFAULT_TRANSACTIONS));
-          localStorage.setItem('fallback_tasks', JSON.stringify(DEFAULT_TASKS));
-          localStorage.setItem('fallback_savings_goals', JSON.stringify(DEFAULT_SAVINGS));
+          localStorage.setItem('fallback_transactions', JSON.stringify(seededTx));
+          localStorage.setItem('fallback_tasks', JSON.stringify(seededTasks));
+          localStorage.setItem('fallback_savings_goals', JSON.stringify(seededSavings));
           localStorage.setItem('fallback_budget_cap', '1500000');
           localStorage.setItem('fallback_category_budgets', JSON.stringify({
             Meals: 300000,
