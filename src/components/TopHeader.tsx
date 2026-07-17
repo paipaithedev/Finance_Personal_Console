@@ -30,7 +30,7 @@ export default function TopHeader({
         {/* Hamburger Button */}
         <button
           onClick={() => setIsMobileMenuOpen(true)}
-          className={`p-2 rounded-lg border transition-colors cursor-pointer lg:hidden ${
+          className={`p-2 rounded-lg border transition-colors cursor-pointer md:hidden ${
             isDarkMode
               ? 'border-zinc-800 bg-zinc-950 text-zinc-300 hover:bg-zinc-800'
               : 'border-neutral-200 bg-slate-100 text-slate-700 hover:bg-slate-200'

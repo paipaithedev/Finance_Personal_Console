@@ -45,13 +45,13 @@ export default function Sidebar({
       {/* Mobile Sidebar Backdrop */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity duration-300"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
       {/* SIDEBAR */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 flex flex-col border-r transition-transform duration-300 lg:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} ${isDarkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-neutral-200'}`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 flex flex-col border-r transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} ${isDarkMode ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-neutral-200'}`}>
         {/* App Branding */}
         <div className={`p-6 border-b flex items-center justify-between ${isDarkMode ? 'border-zinc-800' : 'border-neutral-200'}`}>
           <div className="flex items-center gap-2.5">
@@ -66,7 +66,7 @@ export default function Sidebar({
           {/* Close button on Mobile */}
           <button
             onClick={() => setIsMobileMenuOpen(false)}
-            className={`p-1.5 rounded-lg border transition-colors cursor-pointer lg:hidden ${
+            className={`p-1.5 rounded-lg border transition-colors cursor-pointer md:hidden ${
               isDarkMode
                 ? 'border-zinc-800 bg-zinc-950 text-zinc-400 hover:bg-zinc-800'
                 : 'border-neutral-200 bg-slate-100 text-slate-650 hover:bg-slate-200'

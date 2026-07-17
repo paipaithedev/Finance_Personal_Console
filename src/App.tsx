@@ -112,7 +112,7 @@ export default function App() {
   // PRIMARY DASHBOARD LAYOUT & VIEWPORTS
   // ------------------------------------------
   return (
-    <div className={`min-h-screen flex flex-col lg:flex-row transition-colors duration-300 ${isDarkMode ? 'dark bg-zinc-950 text-zinc-100' : 'bg-slate-50 text-slate-900'}`}>
+    <div className={`min-h-screen flex flex-col md:flex-row transition-colors duration-300 ${isDarkMode ? 'dark bg-zinc-950 text-zinc-100' : 'bg-slate-50 text-slate-900'}`}>
       
       {/* SIDEBAR Component */}
       <Sidebar
@@ -126,7 +126,7 @@ export default function App() {
       />
 
       {/* MAIN CONTAINER */}
-      <div className="flex-1 lg:ml-64 flex flex-col min-h-screen">
+      <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         
         {/* HEADER Component */}
         <TopHeader
